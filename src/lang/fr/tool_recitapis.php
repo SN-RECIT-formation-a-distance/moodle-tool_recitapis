@@ -1,0 +1,24 @@
+<?php
+$string['pluginname'] = 'RÉCIT APIs';
+$string['openaikey'] = 'Clé API OpenAI';
+$string['openaikeydesc'] = '';
+$string['recitapis:enrollment'] = 'L\'utilisateur peut inscrire des étudiants à des cours, groupes et plan de travail (si le plugiciel RÉCIT plan de travail est installé).';
+$string['nopermissions'] = 'Vous n\'avez pas les autorisations pour accéder à la ressource.';
+$string['gricsfrontendclientid'] = 'API GRICS Frontend - ID du client';
+$string['gricsfrontendclientiddesc'] = 'L\'identifiant unique de l\'application';
+$string['gricsfrontendredirecturi'] = 'API GRICS Frontend - URI de redirection';
+$string['gricsfrontendredirecturidesc'] = 'Adresses URI de redirection après connexion';
+$string['gricsbackendclientid'] = 'API GRICS Backend - ID du client';
+$string['gricsbackendclientiddesc'] = 'L\'identifiant unique de l\'application';
+$string['gricsbackendsecret'] = 'API GRICS Backend - Secret';
+$string['gricsbackendsecretdesc'] = 'Le secret associé à l\'application (pour authentifier l\'application auprès du serveur d\'autorisation)';
+$string['gricsorganizationnumber'] = 'Numéro d\'organisation GRICS';
+$string['gricsorganizationnumberdesc'] = 'Le numéro d\'organisation de votre Commission scolaire dans la GRICS. Si vous ne le connaissez pas, vous devez contacter la GRICS.';
+$string['msgactioncompleted'] = "L'action a été effectuée avec succès";
+$string['gricsurlapi'] = 'URL API';
+$string['gricsurlapidesc'] = 'L\'adresse du service web auquel on peut envoyer des requêtes pour interagir avec le système afin d\'obtenir des informations.';
+$string['gricsurlauthorization'] = 'URL d\'autorisation';
+$string['gricsurlauthorizationdesc'] = 'L\'Authorization URL est un composant clé de l\'authentification OAuth, qui permet de sécuriser l\'accès aux APIs en évitant que les utilisateurs partagent leurs informations de connexion directement avec l\'application tierce.';
+$string['gricsurltoken'] = 'URL de jeton';
+$string['gricsurltokendesc'] = 'L\'URL de jeton est essentielle dans le processus OAuth 2.0, permettant d\'échanger un code d\'autorisation contre un jeton d\'accès, qui donne à l\'application le droit d\'effectuer des requêtes authentifiées auprès d\'une API.';
+$string['nodata'] = 'Aucune donnée n\'est disponible';

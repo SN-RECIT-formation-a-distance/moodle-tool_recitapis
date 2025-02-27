@@ -1,0 +1,24 @@
+<?php
+$string['pluginname'] = 'RÉCIT APIs';
+$string['openaikey'] = 'OpenAI API Key';
+$string['openaikeydesc'] = '';
+$string['recitapis:enrollment'] = 'User can enroll students in courses, groups and work plan (if the RÉCIT work plan plugin is installed).';
+$string['nopermissions'] = 'You don\'t have permissions to access the resource.';
+$string['gricsfrontendclientid'] = 'Frontend GRICS API - Client ID';
+$string['gricsfrontendclientiddesc'] = 'The application\'s unique identifier';
+$string['gricsfrontendredirecturi'] = 'Frontend GRICS API - Redirect URI';
+$string['gricsfrontendredirecturidesc'] = 'URI addresses for redirection after login';
+$string['gricsbackendclientid'] = 'Backend GRICS API - Client ID';
+$string['gricsbackendclientiddesc'] = 'The application\'s unique identifier';
+$string['gricsbackendsecret'] = 'Backend GRICS API - Secret';
+$string['gricsbackendsecretdesc'] = 'Application secret (to authenticate the application to the authorization server)';
+$string['gricsorganizationnumber'] = 'GRICS Organization Number';
+$string['gricsorganizationnumberdesc'] = 'The organization number of your boarding school in GRICS. If you do not know it, you should contact GRICS.';
+$string['msgactioncompleted'] = "The action has been completed successfully";
+$string['gricsurlapi'] = 'API URL';
+$string['gricsurlapidesc'] = 'The address of the web service to which you can send requests to interact with the system in order to obtain information.';
+$string['gricsurlauthorization'] = 'Authorization URL';
+$string['gricsurlauthorizationdesc'] = 'The Authorization URL is a key component of OAuth authentication, which secures access to APIs by preventing users from sharing their login information directly with the third-party application.';
+$string['gricsurltoken'] = 'Token URL';
+$string['gricsurltokendesc'] = 'The token URL is essential in the OAuth 2.0 process, allowing an authorization code to be exchanged for an access token, which gives the application the right to make authenticated requests to an API.';
+$string['nodata'] = 'No data available';
