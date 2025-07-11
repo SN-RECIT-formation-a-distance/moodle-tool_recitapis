@@ -37,3 +37,27 @@ function tool_recitapis_strings_for_js() {
         'pluginname', 'msgactioncompleted', 'nodata'),
          'tool_recitapis');
 }
+
+function tool_recitapis_extend_navigation_course(\navigation_node $navigation, \stdClass $course, \context $context) {
+    return;
+    if (!has_capability(RECITAPIS_ENROLLMENT_CAPABILITY, $context)) {
+        // The user does not have the capability to view the course tools.
+        return;
+    }
+
+    // Display in the navigation if the user has site:config ability, or if the site is registered.
+    $enabled = has_capability('moodle/site:config', \context_system::instance());
+    if (!$enabled) {
+        return;
+    }
+
+    $url = new moodle_url('/tool/recitapis/view.php', ['courseid' => $course->id]);
+    $navigation->add(
+        get_string('pluginname', 'tool_recitapis'),
+        $url,
+        navigation_node::TYPE_SETTING,
+        null,
+        null,
+        new pix_icon('fa-connectdevelop', '')
+    );
+}
