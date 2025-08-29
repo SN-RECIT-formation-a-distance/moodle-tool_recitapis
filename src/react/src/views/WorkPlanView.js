@@ -13,7 +13,8 @@ export class WorkPlanView extends Component{
     static defaultProps = {
         gricsData: null,
         enrollmentList: [],
-        refresh: null
+        refresh: null,
+        groupId: ''
     };
 
     constructor(props){
@@ -44,6 +45,15 @@ export class WorkPlanView extends Component{
                     workPlan: {label: "", value: 0}
                 }
             }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.groupId.toString() !== this.props.groupId.toString()){
+            let data = this.state;
+            data.selectionList.clear();
+            data.selectAll = false;
+            this.setState(data);
         }
     }
 
@@ -152,7 +162,10 @@ export class WorkPlanView extends Component{
             
         for(let item of listToSelect){
             if(state){
-                selectionList.add(item);
+                let hasWorkPlanAssignment = this.state.workPlanData.assignmentList.includes(item.moodleData.userid.toString());
+                if(!hasWorkPlanAssignment){
+                    selectionList.add(item);
+                }
             }
             else{
                 selectionList.delete(item);

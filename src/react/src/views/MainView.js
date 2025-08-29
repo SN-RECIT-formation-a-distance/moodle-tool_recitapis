@@ -44,11 +44,11 @@ export class MainView extends Component {
                     <div className='mt-3'>
                         <Tabs id="tabOptions" activeKey={this.state.tab} onSelect={(tab) => this.setState({tab: tab})}>
                             <Tab eventKey="0" title="Inscription Moodle">
-                                <CourseEnrollmentView gricsData={this.state.gricsData} enrollmentList={this.state.enrollmentList} refresh={this.getMoodleEnrollments}/>
+                                <CourseEnrollmentView groupId={this.state.gricsData.selectedGroup.value} gricsData={this.state.gricsData} enrollmentList={this.state.enrollmentList} refresh={this.getMoodleEnrollments}/>
                             </Tab>
                             {$glVars.appParams.workplanPluginFound &&
                                 <Tab eventKey="1" title="Plan de travail">
-                                    <WorkPlanView gricsData={this.state.gricsData} enrollmentList={this.state.enrollmentList} refresh={this.getMoodleEnrollments}/>
+                                    <WorkPlanView groupId={this.state.gricsData.selectedGroup.value} gricsData={this.state.gricsData} enrollmentList={this.state.enrollmentList} refresh={this.getMoodleEnrollments}/>
                                 </Tab> 
                             }
                         </Tabs>

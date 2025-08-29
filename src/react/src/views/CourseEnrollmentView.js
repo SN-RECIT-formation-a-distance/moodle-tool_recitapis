@@ -14,7 +14,8 @@ export class CourseEnrollmentView extends Component{
     static defaultProps = {
         gricsData: null,
         enrollmentList: [],
-        refresh: null
+        refresh: null,
+        groupId: ''
     };
 
     constructor(props){
@@ -44,6 +45,15 @@ export class CourseEnrollmentView extends Component{
         }
     }
     
+    componentDidUpdate(prevProps) {
+        if(prevProps.groupId.toString() !== this.props.groupId.toString()){
+            let data = this.state;
+            data.selectionList.clear();
+            data.selectAll = false;
+            this.setState(data);
+        }
+    }
+
     componentDidMount(){
         this.getMyMoodleCoursesAndGroups();
     }

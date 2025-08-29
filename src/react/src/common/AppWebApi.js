@@ -570,15 +570,8 @@ export class GricsApi{
 
         let result = {"eleves": [], "responsables": []};
 
-        let offlineData = {
+        let offlineData1 = {
             "eleves": [
-              {
-                "id": "00000000-0000-0000-0000-000000000000",
-                "fiche": -39356053,
-                "courriel": "a@a.com",
-                "nom": "Lamontagne",
-                "prenom": "David"
-              },
               {
                 "id": "00000000-0000-0000-0000-000000000000",
                 "fiche": -33355715,
@@ -597,13 +590,6 @@ export class GricsApi{
             "responsables": [
               {
                 "id": "00000000-0000-0000-0000-000000000000",
-                "matricule": "ruhisocizdis",
-                "courriel": "zurovgur",
-                "nom": "felujveomus",
-                "prenom": "unorjugu"
-              },
-              {
-                "id": "00000000-0000-0000-0000-000000000000",
                 "matricule": "gedu",
                 "courriel": "izuebfatoprun",
                 "nom": "watkiriretrubma",
@@ -618,9 +604,35 @@ export class GricsApi{
               }
             ]
         }
+         
+        let offlineData2 = {
+            "eleves": [
+              {
+                "id": "00000000-0000-0000-0000-000000000000",
+                "fiche": -39356053,
+                "courriel": "a@a.com",
+                "nom": "Lamontagne",
+                "prenom": "David"
+              }
+            ],
+            "responsables": [
+              {
+                "id": "00000000-0000-0000-0000-000000000000",
+                "matricule": "ruhisocizdis",
+                "courriel": "zurovgur",
+                "nom": "felujveomus",
+                "prenom": "unorjugu"
+              },
+            ]
+        }
 
         if(Options.isDevMode()){
-            result = offlineData;
+            if(groupId == "8596427173265408"){
+                result = offlineData2;
+            }
+            else{
+                result = offlineData1;
+            }            
         }
         else{
             let url = new URL(`${$glVars.appParams.grics.urlApi}/v3/groupes/${groupId}/membres`);
