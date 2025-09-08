@@ -2,6 +2,8 @@
 
 This plugin is designed to retrieve data from various APIs for use by other RECIT plugins.
 
+To make the RÉCIT API accessible from the menu, add the following line to your custommenuitems configuration: <i>RECIT API|YOUR_SERVER/admin/tool/recitapis/view.php</i>
+
 ## GRICS API
 <a href='https://espaceapi.grics.ca/'>Espace API - GRICS</a>
 
