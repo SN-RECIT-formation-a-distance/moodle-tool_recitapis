@@ -26,7 +26,12 @@ require_once dirname(__FILE__).'/recitcommon/WebApi.php';
 require_once dirname(__FILE__).'/PersistCtrl.php';
 require_once dirname(__FILE__).'/Options.php';
 require_once($CFG->dirroot . '/group/lib.php');
-require_once($CFG->dirroot . '/local/recitworkplan/classes/PersistCtrl.php');
+
+$workplan = $CFG->dirroot . '/local/recitworkplan/classes/PersistCtrl.php';
+if(is_file($workplan)){
+    require_once($CFG->dirroot . '/local/recitworkplan/classes/PersistCtrl.php');
+}
+
 
 use Exception;
 use stdClass;
