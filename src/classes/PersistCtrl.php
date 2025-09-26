@@ -143,7 +143,7 @@ class PersistCtrl extends MoodlePersistCtrl
                     from {enrol} as t1
                     inner join {user_enrolments} as t2 on t1.id = t2.enrolid
                     inner join {course} as t3 on t1.courseid = t3.id
-                    inner join {groups} as t4 on t3.id = t4.courseid
+                    left join {groups} as t4 on t3.id = t4.courseid
                     left join {groups_members} as t5 on t4.id = t5.groupid and t5.userid = ?
                     where t2.userid = ? 
                     order by coursename, groupname";

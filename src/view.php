@@ -36,7 +36,7 @@ require_login();
 // Globals.
 $PAGE->set_url("/tool/recitapis/view.php"); 
 $PAGE->requires->css(new moodle_url($CFG->wwwroot . '/admin/tool/recitapis/react/build/index.css'), true);
-$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/admin/tool/recitapis/react/build/index.js'), true);
+$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/admin/tool/recitapis/react/build/index.js?v1017'), true);
 
 // Set page context.
 $PAGE->set_context(\context_system::instance());

@@ -28,6 +28,7 @@ class App extends Component {
     componentDidMount(){
         $glVars.feedback.addObserver("App", this.onFeedback);
         window.document.title = window.document.title + ' - v' + Options.appVersion();
+        console.log(window.document.title);
 
         $glVars.gricsApi.domVisualFeedback = $glVars.webApi.domVisualFeedback;
     }
