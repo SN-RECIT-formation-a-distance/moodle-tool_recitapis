@@ -41,6 +41,7 @@ use recitworkplan\Assignment as WorkPlanAssignment;
 class WebApi extends MoodleApi
 {
     protected $token = null;
+    protected $ctrl = null;
 
     public function __construct($DB, $COURSE, $USER){
         parent::__construct($DB, $COURSE, $USER);
