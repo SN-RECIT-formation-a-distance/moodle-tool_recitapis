@@ -35,8 +35,8 @@ require_login();
 
 // Globals.
 $PAGE->set_url("/tool/recitapis/view.php"); 
-$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/admin/tool/recitapis/react/build/index.css'), true);
-$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/admin/tool/recitapis/react/build/index.js?v1017'), true);
+$PAGE->requires->css(new moodle_url($CFG->wwwroot . '/admin/tool/recitapis/react/build/index.css?200'), true);
+$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/admin/tool/recitapis/react/build/index.js?200'), true);
 
 // Set page context.
 $PAGE->set_context(\context_system::instance());
@@ -45,7 +45,7 @@ $PAGE->set_context(\context_system::instance());
 $PAGE->set_pagelayout('standard');
 
 $PAGE->set_title(get_string('pluginname', 'tool_recitapis'));
-$PAGE->set_heading(get_string('pluginname', 'tool_recitapis'));
+//$PAGE->set_heading(get_string('pluginname', 'tool_recitapis'));
 
 echo $OUTPUT->header();
 

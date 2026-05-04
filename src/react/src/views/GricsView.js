@@ -25,7 +25,7 @@ export class GricsCard extends Component{
         let oauth2Params = {
             urlAuthorize: $glVars.appParams.grics.urlAuthorization,
             urlToken: $glVars.appParams.grics.urlToken,
-            clientId: $glVars.appParams.grics.clientId, // api test grics = 621021ba9c48e1ed86ba08da56d69626
+            clientId: $glVars.appParams.grics.clientId, 
             redirectUri: $glVars.appParams.grics.redirectUri,
             scope:  'apiclients openid profile'
         }

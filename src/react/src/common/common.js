@@ -1,6 +1,5 @@
 import React, { Children, Component } from "react";
 import {FeedbackCtrl} from "../libs/components/Feedback";
-import {AppWebApi} from "./AppWebApi";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCheckCircle, faCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +9,7 @@ export * from "./Options";
 export const $glVars = {
     signedUser: {userId: 0, roles: []},
     feedback: new FeedbackCtrl(),
-    webApi: new AppWebApi(),
+    webApi: null,
     gricsApi: null,
     urlParams: {},
     appParams: {
@@ -29,7 +28,7 @@ export const $glVars = {
 
 export class Assets
 {
-   static mozaikBrand = require('../assets/mozaik.png');
+   static mozaikBrand = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGEAAABlAgMAAAAg+WUmAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC41ZYUyZQAAAAlQTFRF////////7/b82qesfQAAAAF0Uk5TAEDm2GYAAAELSURBVHja7dVRCoMwDADQROiHB8gRvEeP4IcZfvYou4T3HaWrISZhjsHYwPy48OhsTKpwxefBPZbvC3MgxDy7MtTMlVSz7AnVbPWkZ0aGljqCLc1WxlBSS0sosxX6S+n1DJEUjCRbQZGgPynsaQrngILZKZ6gjIEzoyugJ1iXJCM9KBSOBEOhSEbWYgF0JA5AmjmHS06/B/DEn+W6R7dGgI15dW+Dzc1tVphad50NULs4G7DzoWfRbu0+Pq9G9gl/R0g/JH4ty+8JiUztRzESPoP5KJOIdEH3pxxllJaCPdm9YaTnsYt8VXpsfdPtVNx2UJWTGm5VBS/2YIETZM6OqiiDF5tdIiXBFTYersJrrlgplwQAAAAASUVORK5CYII=";
 }
 
 export class StepButton extends Component{

@@ -118,7 +118,7 @@ export class CourseEnrollmentView extends Component{
                             </td> 
                             <td style={{minWidth: 285}} className='d-flex justify-content-around'>
                                 <ComboBoxPlus className={"w-100"}  placeholder={"Sélectionnez un groupe"} name="group" value={this.state.moodleData.filter.group.value} options={moodleGroupList} onChange={this.onFilterChange}></ComboBoxPlus>    
-                                <Button className='ml-2' variant='outline-primary' size='sm' disabled={this.state.moodleData.filter.course.value.toString() === "0"} onClick={this.onCreateGroup} title={`Créer un groupe Moodle`}>
+                                <Button className='ms-2' variant='outline-primary' size='sm' disabled={this.state.moodleData.filter.course.value.toString() === "0"} onClick={this.onCreateGroup} title={`Créer un groupe Moodle`}>
                                     <FontAwesomeIcon icon={faUsers} /> 
                                 </Button>
                             </td>
@@ -311,7 +311,7 @@ class ModalEnrollStudents extends Component{
                 </Table>
                 <Alert className="mt-2 d-flex align-items-center p-1" variant="warning">
                     <CheckBoxControl onClick={() => this.setState({confirmed: !this.state.confirmed})} checked={this.state.confirmed} />
-                    <span className='ml-2'>Je confirme l’inscription des étudiants à ce cours dans Moodle.</span>
+                    <span className='ms-2'>Je confirme l’inscription des étudiants à ce cours dans Moodle.</span>
                 </Alert>
             </div>;
 
@@ -321,7 +321,7 @@ class ModalEnrollStudents extends Component{
                 <Button disabled={!this.state.confirmed} style={{flex: 0}} variant='success' onClick={this.onApply}>Appliquer</Button>
             </ButtonGroup>;
 
-        return <Modal title="Inscription des étudiants" style={{maxWidth: 850, width:'auto'}} body={modalBody} onClose={this.props.onClose} footer={footer}/>
+        return <Modal title="Inscription des étudiants" body={modalBody} onClose={this.props.onClose} footer={footer}/>
     }
 
     onApply(){

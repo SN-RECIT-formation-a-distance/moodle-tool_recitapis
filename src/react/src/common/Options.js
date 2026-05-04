@@ -3,17 +3,26 @@ import packageJson from "../../package.json";
 export class Options
 {
     static appVersion(){ return packageJson.version; }
-    
+     
     static appTitle(){
         return i18n.get_string('pluginname') + " | v" + this.appVersion();
     }
 
+    static getWwwRoot(){
+        const root = (typeof M !== 'undefined' && typeof M.cfg?.wwwroot === 'string') ? M.cfg.wwwroot : '';
+        if (!root){ 
+            alert('[recitapis] M.cfg.wwwroot non disponible ou invalide');
+        }
+        return root; 
+    }
+
     static getGateway(){
-        return `${M.cfg.wwwroot}/admin/tool/recitapis/classes/WebApi.php`;
+        
+        return `${Options.getWwwRoot()}/admin/tool/recitapis/classes/WebApi.php`;
     }
 
     static getWorkPlanGateway(){
-        return `${M.cfg.wwwroot}/local/recitworkplan/classes/WebApi.php`;
+        return `${Options.getWwwRoot()}/local/recitworkplan/classes/WebApi.php`;
     }
 
     static isDevMode(){

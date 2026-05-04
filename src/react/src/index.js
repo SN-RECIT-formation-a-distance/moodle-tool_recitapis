@@ -12,6 +12,7 @@ import {$glVars, Options} from "./common/common";
 import "./css/style.scss";
 import './css/mozaik.css';
 import { MainView } from './views/MainView';
+import { AppWebApi } from './common/AppWebApi';
 
 class App extends Component {
     static defaultProps = {
@@ -71,6 +72,9 @@ document.addEventListener('DOMContentLoaded', function(e){
         $glVars.appParams.grics.urlToken = domContainer.getAttribute('data-grics-url-token');
         $glVars.appParams.workplanPluginFound = (domContainer.getAttribute('data-workplan-plugin-found').toString() === "1");
         $glVars.appParams.userEmail = domContainer.getAttribute('data-user-email');
+
+        $glVars.webApi = new AppWebApi(); 
+
         root.render(<App />);
     }
 }, false);

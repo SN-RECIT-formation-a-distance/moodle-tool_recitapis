@@ -420,7 +420,7 @@ class ModalAssignWorkPlan extends Component{
                 </Table>
                 <Alert className="mt-2 d-flex align-items-center p-1" variant="warning">
                     <CheckBoxControl onClick={() => this.setState({confirmed: !this.state.confirmed})} checked={this.state.confirmed} />
-                    <span className='ml-2'>Je confirme l'attribution de ce plan de travail à ces étudiants.</span>
+                    <span className='ms-2'>Je confirme l'attribution de ce plan de travail à ces étudiants.</span>
                 </Alert>
             </div>;
 

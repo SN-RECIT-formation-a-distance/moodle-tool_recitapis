@@ -1,5 +1,5 @@
 $from = "moodle-tool_recitapis/src/*"
-$to = "shared/recitfad3/admin/tool/recitapis"
+$to = "shared/recitfad4/public/admin/tool/recitapis"
 $source = "./src";
 
 try {

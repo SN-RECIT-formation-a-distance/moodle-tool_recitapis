@@ -16,9 +16,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024071008;
-$plugin->requires  = 2020061500.00; // Moodle 3.9.0
+$plugin->version   = 2026050400;
+$plugin->requires  = 2025100603.00; // Moodle 5.1.3
 $plugin->component = 'tool_recitapis'; 
-$plugin->release = 'v1.0.18-beta'; 
-$plugin->supported = [39, 405];      //  Moodle 3.9.x, 3.10.x and 3.11.x are supported.
-$plugin->maturity = MATURITY_BETA; // MATURITY_ALPHA, MATURITY_BETA, MATURITY_RC or MATURITY_STABLE
+$plugin->release = 'v2.0.0-stable';  
+$plugin->supported = [501, 501];      //  Moodle 3.9.x, 3.10.x and 3.11.x are supported.
+$plugin->maturity = MATURITY_STABLE; // MATURITY_ALPHA, MATURITY_BETA, MATURITY_RC or MATURITY_STABLE

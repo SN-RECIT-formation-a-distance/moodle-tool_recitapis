@@ -3,6 +3,7 @@
 # dependencies
 node_modules
 .cache
+.parcel-cache
 
 *.zip
 src/react/package-lock.json
