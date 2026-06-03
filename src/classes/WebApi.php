@@ -25,6 +25,7 @@ require_once(dirname(__FILE__).'../../../../../config.php');
 require_once dirname(__FILE__).'/recitcommon/WebApi.php';
 require_once dirname(__FILE__).'/PersistCtrl.php';
 require_once dirname(__FILE__).'/Options.php';
+require_once dirname(__FILE__) . '/../lib.php';
 require_once($CFG->dirroot . '/group/lib.php');
 
 $workplan = $CFG->dirroot . '/local/recitworkplan/classes/PersistCtrl.php';
@@ -62,8 +63,17 @@ class WebApi extends MoodleApi
     }
 
     public function getMoodleEnrollments($request){
-        try{            
-            $emailList = explode(",", clean_param($request['emailList'], PARAM_TEXT));
+        try{
+            $courses = get_user_capability_course(RECITAPIS_ENROLLMENT_CAPABILITY, $this->signedUser->id, true, '', '', 1);
+            if (empty($courses)) {
+                throw new Exception(get_string('nopermissions', 'tool_recitapis'));
+            }
+
+            $rawEmails = explode(",", clean_param($request['emailList'], PARAM_TEXT));
+            $emailList = array_values(array_filter(array_map(
+                function($e) { return clean_param(trim($e), PARAM_EMAIL); },
+                $rawEmails
+            )));
 
             $result = $this->ctrl->getMoodleEnrollments($emailList);
             $this->prepareJson($result);
@@ -77,24 +87,31 @@ class WebApi extends MoodleApi
     public function enrollStudentList($request){
         global $DB;
 
-        try{                       
-            $userIdList = explode(",", clean_param($request['userIdList'], PARAM_TEXT));
+        try{
+            $userIdList = array_filter(array_map('intval',
+                explode(",", clean_param($request['userIdList'], PARAM_TEXT))));
             $courseId = clean_param($request['courseId'], PARAM_INT);
             $groupeId = clean_param($request['groupeId'], PARAM_INT);
 
             $context = \context_course::instance($courseId);
+            require_capability('enrol/manual:enrol', $context);
 
             if($groupeId > 0){
                 require_capability('moodle/course:managegroups', $context);
+                // Verify the group actually belongs to this course (IDOR guard).
+                $group = $DB->get_record('groups', array('id' => $groupeId, 'courseid' => $courseId));
+                if (!$group) {
+                    throw new Exception(get_string('invalidgroupid', 'error'));
+                }
             }
-            
+
             $manplugin = enrol_get_plugin('manual');
             $maninstance = $DB->get_record('enrol', array('courseid' => $courseId, 'enrol' => 'manual'), '*', MUST_EXIST);
             $studentrole = $DB->get_record('role', array('shortname' => 'student'));
 
             foreach($userIdList as $userId){
-                if($userId == 0){ continue; }
-                
+                if($userId <= 0){ continue; }
+
                 if(!is_enrolled($context, $userId)){
                     $manplugin->enrol_user($maninstance, $userId, $studentrole->id);
                 }
@@ -113,7 +130,12 @@ class WebApi extends MoodleApi
     }
 
     public function getWorkPlanAssignments($request){
-        try{            
+        try{
+            $courses = get_user_capability_course(RECITAPIS_ENROLLMENT_CAPABILITY, $this->signedUser->id, true, '', '', 1);
+            if (empty($courses)) {
+                throw new Exception(get_string('nopermissions', 'tool_recitapis'));
+            }
+
             $templateId = clean_param($request['templateId'], PARAM_INT);
 
             $result = $this->ctrl->getWorkPlanAssignments($templateId);
@@ -161,10 +183,14 @@ class WebApi extends MoodleApi
     
             $authorizationHeader = "Basic ".base64_encode(Options::getGricsApiClientId().":".Options::getGricsApiSecret());
    
-            $response = HTTPRequester::HTTPPost(Options::getGricsUrlToken($mode), $params, $authorizationHeader);       
+            $response = HTTPRequester::HTTPPost(Options::getGricsUrlToken($mode), $params, $authorizationHeader);
             $token = json_decode($response->response);
+            if ($token === null) {
+                throw new Exception('Invalid response from GRICS token endpoint');
+            }
             $token->timestamp = time();
             file_put_contents($file, json_encode($token));
+            @chmod($file, 0600);
     
             $result->accessToken = $token->access_token;
             $result->refresh = true;
@@ -179,6 +205,11 @@ class WebApi extends MoodleApi
         global $USER;
 
         try{
+            $courses = get_user_capability_course(RECITAPIS_ENROLLMENT_CAPABILITY, $this->signedUser->id, true, '', '', 1);
+            if (empty($courses)) {
+                throw new Exception(get_string('nopermissions', 'tool_recitapis'));
+            }
+
             $debug = 0;
             if(isset($request['debug'])){
                 $debug = clean_param($request['debug'], PARAM_INT);
@@ -210,9 +241,11 @@ class WebApi extends MoodleApi
     public function assignStudentToWorkPlan($request){
         global $DB, $USER;
 
-        try{                
-            $userIdList = explode(",", clean_param($request['userIdList'], PARAM_TEXT));       
-            $courseIdList = explode(",", clean_param($request['courseIdList'], PARAM_TEXT));
+        try{
+            $userIdList = array_filter(array_map('intval',
+                explode(",", clean_param($request['userIdList'], PARAM_TEXT))));
+            $courseIdList = array_filter(array_map('intval',
+                explode(",", clean_param($request['courseIdList'], PARAM_TEXT))));
             $templateId = clean_param($request['templateId'], PARAM_INT);
 
             $manplugin = enrol_get_plugin('manual');
@@ -222,18 +255,20 @@ class WebApi extends MoodleApi
 
             foreach($courseIdList as $courseId){
                 $context = \context_course::instance($courseId);
+                require_capability('enrol/manual:enrol', $context);
                 $maninstance = $DB->get_record('enrol', array('courseid' => $courseId, 'enrol' => 'manual'), '*', MUST_EXIST);
 
                 foreach($userIdList as $userId){
-                    if($userId == 0){ continue; }                   
+                    if($userId <= 0){ continue; }
 
                     if(!is_enrolled($context, $userId)){
                         $manplugin->enrol_user($maninstance, $userId, $studentrole->id);
                     }
-                }     
+                }
             }
 
             foreach($userIdList as $userId){
+                if($userId <= 0){ continue; }
                 $newAssignment = new WorkPlanAssignment();
                 $newAssignment->id = 0;
                 $newAssignment->templateId = $templateId;

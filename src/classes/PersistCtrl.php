@@ -175,18 +175,22 @@ class PersistCtrl extends MoodlePersistCtrl
     }
 
     public function getMoodleEnrollments(array $emailList){
-        $emailListStr = "'" . implode("','", $emailList) . "'";
+        if (empty($emailList)) {
+            return array();
+        }
 
-        $query = "select t1.id as userid, t1.firstname, t1.lastname, t1.email, 
-                coalesce(group_concat(distinct join1.courseid), '') as courseids, 
+        list($insql, $inparams) = $this->mysqlConn->get_in_or_equal($emailList);
+
+        $query = "select t1.id as userid, t1.firstname, t1.lastname, t1.email,
+                coalesce(group_concat(distinct join1.courseid), '') as courseids,
                 coalesce(group_concat(distinct join2.id), '') as groupids
             from {user} as t1
             left join (select t3.courseid, t2.userid from {user_enrolments} as t2 inner join {enrol} as t3 on t2.enrolid = t3.id) as join1 on t1.id = join1.userid
             left join (select t4.courseid, t4.id, t5.userid from {groups} as t4 inner join {groups_members} as t5 on t4.id = t5.groupid) as join2 on join1.courseid = join2.courseid and  t1.id = join2.userid
-            where t1.email in ($emailListStr)
-            group by t1.id"; 
+            where t1.email $insql
+            group by t1.id";
 
-        $recordSet = $this->getRecordsSQL($query);
+        $recordSet = $this->getRecordsSQL($query, $inparams);
 
         $result = array(); 
         foreach($emailList as $email){
@@ -229,10 +233,10 @@ class PersistCtrl extends MoodlePersistCtrl
         left join {course_modules} as t3 on t2.cmid = t3.id
         left join {course} as t4 on t3.course = t4.id
         left join {recit_wp_tpl_assign} t5 on t5.templateid = t1.id
-        where t1.id = $templateId 
-        group by t1.id"; 
+        where t1.id = ?
+        group by t1.id";
 
-        $recordSet = $this->getRecordsSQL($query);
+        $recordSet = $this->getRecordsSQL($query, [$templateId]);
       
         $result = array_pop($recordSet);
         $result->courselist = ($result->courselist == null ? array() : explode(',', $result->courselist));

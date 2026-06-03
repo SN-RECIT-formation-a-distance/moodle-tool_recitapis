@@ -123,8 +123,22 @@ abstract class AWebApi
         }
 
         $serviceWanted = clean_param($this->request['service'], PARAM_TEXT);
-		$result = $this->$serviceWanted($this->request);	
 
+        // Only allow public methods declared on the concrete subclass, never inherited
+        // infrastructure methods (replyClient, preProcessRequest, etc.).
+        try {
+            $reflector = new \ReflectionMethod(get_class($this), $serviceWanted);
+        } catch (\ReflectionException $e) {
+            $this->lastResult = new WebApiResult(false, null, get_string('servicenotfound', 'tool_recitapis'));
+            return;
+        }
+
+        if (!$reflector->isPublic() || $reflector->getDeclaringClass()->getName() !== get_class($this)) {
+            $this->lastResult = new WebApiResult(false, null, get_string('servicenotfound', 'tool_recitapis'));
+            return;
+        }
+
+        $result = $this->$serviceWanted($this->request);
         $this->lastResult = $result;
     }
 	

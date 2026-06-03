@@ -71,14 +71,15 @@ if($hasCapability){
 
     //$PAGE->requires->js_init_call('tool_recitapis_init_app', array(, ));
 
-    $placeholder = "<div style='min-height: 70vh;' id='recit_apis' 
+    $placeholder = "<div style='min-height: 70vh;' id='recit_apis'
                 data-grics-client-id='%s' data-grics-redirect-uri='%s'
                 data-grics-url-api='%s' data-grics-url-authorization='%s'
                 data-grics-url-token='%s' data-workplan-plugin-found='%s'
                 data-user-email='%s'></div>";
 
-    echo sprintf($placeholder, $gricsclientid, $gricsredirecturi, $gricsurlapi,
-            $gricsurlauthorization, $gricsurltoken, $workPlanPluginFound, $userEmail);
+    echo sprintf($placeholder,
+            s($gricsclientid), s($gricsredirecturi), s($gricsurlapi),
+            s($gricsurlauthorization), s($gricsurltoken), (int)$workPlanPluginFound, s($userEmail));
 }
 else{
     echo "<div class='alert alert-danger'>";
