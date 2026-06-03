@@ -21,6 +21,10 @@
  */
 namespace recitapis;
 
+// Prevent Moodle's debugging() / email_to_user warnings from being written
+// to the HTTP response body, which would corrupt the JSON output.
+define('NO_DEBUG_DISPLAY', true);
+
 require_once(dirname(__FILE__).'../../../../../config.php');
 require_once dirname(__FILE__).'/recitcommon/WebApi.php';
 require_once dirname(__FILE__).'/PersistCtrl.php';

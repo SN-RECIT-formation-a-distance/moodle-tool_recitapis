@@ -53,21 +53,22 @@ abstract class AWebApi
     
     public static function onPhpError(){
         if(AWebApi::$lastError == null){
-            AWebApi::$lastError = error_get_last(); 
+            AWebApi::$lastError = error_get_last();
         }
 
-        if(AWebApi::$lastError != NULL) {
+        $fatalTypes = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
+        if (AWebApi::$lastError != null && in_array(AWebApi::$lastError['type'], $fatalTypes)) {
             $headers = AWebApi::getDefaultHeaders();
             $headers[] = 'Status: 500 Internal Server Error';
-            $headers[] = "Content-type: application/json; charset=utf-8";  
+            $headers[] = "Content-type: application/json; charset=utf-8";
             foreach($headers as $header){ header($header); }
-            
-            if(ob_get_length() > 0){
-                ob_clean();
+
+            while (ob_get_level() > 0) {
+                ob_end_clean();
             }
-            
+
             flush();
-            echo json_encode( new WebApiResult(false, null, AWebApi::$lastError['message']));
+            echo json_encode(new WebApiResult(false, null, AWebApi::$lastError['message']));
         }
     }
 
@@ -144,10 +145,20 @@ abstract class AWebApi
 	
 	public function replyClient(){
         AWebApi::$lastError = error_get_last();
-        if(AWebApi::$lastError != null){ return; }
+        // Only abort for fatal errors (E_ERROR, E_PARSE, etc.), not warnings.
+        $fatalTypes = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
+        if (AWebApi::$lastError != null && in_array(AWebApi::$lastError['type'], $fatalTypes)) {
+            return;
+        }
+
+        // Discard any stray output (debug messages, notices) accumulated in all
+        // active output buffers so headers can still be sent cleanly.
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
 
         $webApiResult = $this->lastResult;
-        $headers = AWebApi::getDefaultHeaders(); 
+        $headers = AWebApi::getDefaultHeaders();
         $result = json_encode($webApiResult);
 
         switch($webApiResult->contentType){
@@ -170,17 +181,13 @@ abstract class AWebApi
 				$result = file_get_contents($webApiResult->data->filename);
 				break;
             default:
-				$headers[] = "Content-type: text; charset=utf-8";                        
+				$headers[] = "Content-type: text; charset=utf-8";
         }
 
         foreach($headers as $header){
             header($header);
         }
-        
-        if(ob_get_length() > 0){
-            ob_clean();
-        }
-        
+
         flush();
         echo $result;
 	}
