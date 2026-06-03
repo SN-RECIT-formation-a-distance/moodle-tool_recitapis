@@ -16,7 +16,11 @@ export class Loading extends Component{
 
         this.domRef = React.createRef();
 
-        this.state = {timeout: 0, elapsedTime: 0}
+        this.state = {timeout: 0, elapsedTime: 0};
+
+        // Dedicated mount point so we can re-order it in <body> without touching
+        // nodes React owns internally.
+        this._mountPoint = document.createElement('div');
     }
 
     renderChildren() {        
@@ -30,6 +34,8 @@ export class Loading extends Component{
     }
 
     componentDidMount(){
+        document.body.appendChild(this._mountPoint);
+
         if(this.props.webApi === null){ return; }
 
         this.props.webApi.domVisualFeedback = this.domRef.current;
@@ -39,6 +45,9 @@ export class Loading extends Component{
         const observer = new MutationObserver(() => {
             // Loader became visible
             if (window.getComputedStyle(that.domRef.current).display !== 'none') {
+                // Re-append moves the mount point to the end of <body>, placing it
+                // above any Bootstrap modals that were added after initial mount.
+                document.body.appendChild(that._mountPoint);
 
                 let timeout = parseInt(that.domRef.current.dataset.timeout) || 0;
 
@@ -61,6 +70,12 @@ export class Loading extends Component{
         });
     }
 
+    componentWillUnmount(){
+        if (document.body.contains(this._mountPoint)) {
+            document.body.removeChild(this._mountPoint);
+        }
+    }
+
     render(){
         let main =
             <div ref={this.domRef} className="Loading">
@@ -74,7 +89,7 @@ export class Loading extends Component{
             <Button variant="link" className='text-white' style={{fontSize: '12px'}} onClick={this.onAbort}>Annuler la requête</Button>                            
         */
 
-        return ReactDOM.createPortal(main, document.body);
+        return ReactDOM.createPortal(main, this._mountPoint);
     }
 
     onAbort(){

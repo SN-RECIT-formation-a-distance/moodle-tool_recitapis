@@ -29,12 +29,12 @@
     display: none;
     .overlay{
         position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999; /* above everything */ pointer-events: auto; /* ⭐ prevents clicks through */
+        z-index: 1060; /* above Bootstrap modal (1050) */ pointer-events: auto;
     }
-    
+
     .content{
-        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; /* above overlay */
-        text-align: center; 
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1061; /* above overlay */
+        text-align: center;
         .Img{width: 64px; height: 64px; color: #FFF;}
-    } 
+    }
 }
